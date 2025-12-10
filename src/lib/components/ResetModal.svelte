@@ -7,7 +7,7 @@
   const toggle = () => (isOpen = !isOpen)
 
   const onconfirm = () => {
-    $game = generateNewGame()
+    Object.assign(game, generateNewGame())
     isOpen = false
   }
 </script>

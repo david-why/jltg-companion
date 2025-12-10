@@ -1,0 +1,42 @@
+<script lang="ts">
+  import { game } from '$lib/store.svelte'
+  import { Button, Card, CardBody, CardFooter, CardText, CardTitle } from '@sveltestrap/sveltestrap'
+
+  interface Props {
+    id: number
+    ondiscard?: () => unknown
+    onuse?: () => unknown
+  }
+
+  const { id, ondiscard, onuse }: Props = $props()
+
+  const card = $derived(game.spec.deck.find((c) => c.id === id))
+  $effect(() => {
+    if (!card) {
+      throw new Error(`Card with ID ${id} not found in spec ${game.spec.name} (${game.spec.id})`)
+    }
+  })
+</script>
+
+<Card style="width: 15em">
+  <CardBody>
+    <CardTitle>{card?.title}</CardTitle>
+    <CardText>
+      {#if card?.type === 'time'}
+        <p><em>Time bonus</em></p>
+        <p>Grants the hider(s) a bonus of {card.duration} minutes.</p>
+      {:else if card?.type === 'curse'}
+        <p><em>Curse</em></p>
+        <p>{card.description}</p>
+        <p><strong>Casting cost</strong>: {card.cost}</p>
+      {:else if card?.type === 'powerup'}
+        <p><em>Powerup</em></p>
+        <p>{card.description}</p>
+      {/if}
+    </CardText>
+  </CardBody>
+  <CardFooter>
+    <Button size="sm" onclick={ondiscard}>Discard</Button>
+    <Button size="sm" color="primary" onclick={onuse}>Use</Button>
+  </CardFooter>
+</Card>

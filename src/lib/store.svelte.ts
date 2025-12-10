@@ -1,5 +1,4 @@
 import { browser } from '$app/environment'
-import { writable } from 'svelte/store'
 import specs from './specs'
 
 function localStorageStore<T>(key: string, initialValue: T) {
@@ -12,11 +11,13 @@ function localStorageStore<T>(key: string, initialValue: T) {
     }
   }
 
-  const store = writable(value)
+  const store = $state(value)
 
   if (browser) {
-    store.subscribe((value) => {
-      localStorage.setItem(key, JSON.stringify(value))
+    $effect.root(() => {
+      $effect(() => {
+        localStorage.setItem(key, JSON.stringify(store))
+      })
     })
   }
 
