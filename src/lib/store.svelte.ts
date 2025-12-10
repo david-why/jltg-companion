@@ -1,11 +1,6 @@
 import { browser } from '$app/environment'
 import { writable } from 'svelte/store'
-
-export interface Game {
-  hand: number[]
-  handLimit: number
-  usedCards: number[]
-}
+import specs from './specs'
 
 function localStorageStore<T>(key: string, initialValue: T) {
   let value = initialValue
@@ -28,11 +23,16 @@ function localStorageStore<T>(key: string, initialValue: T) {
   return store
 }
 
-export const initialGame = Object.freeze<Game>({
-  // for the hider
-  hand: [],
-  handLimit: 6,
-  usedCards: [],
-})
+export function generateNewGame(): Game {
+  return {
+    spec: specs[0]!,
+    startTime: Date.now(),
+    events: [],
+    // for the hider
+    hand: [],
+    handLimit: 6,
+    usedCards: [],
+  }
+}
 
-export const game = localStorageStore('jltg-game', { ...initialGame })
+export const game = localStorageStore('jltg-game', generateNewGame())

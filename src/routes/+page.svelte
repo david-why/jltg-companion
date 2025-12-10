@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { resolve } from '$app/paths'
   import { Row, Col, Card, CardBody, CardTitle, CardText } from '@sveltestrap/sveltestrap'
+
+  import { resolve } from '$app/paths'
 </script>
 
 <h1>JLTG Companion</h1>
