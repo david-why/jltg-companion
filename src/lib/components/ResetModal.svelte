@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { game, generateNewGame } from '$lib/store.svelte'
+  import { game, generateNewGame } from '$lib/game.svelte'
   import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from '@sveltestrap/sveltestrap'
 
   let { isOpen = $bindable() }: { isOpen: boolean } = $props()

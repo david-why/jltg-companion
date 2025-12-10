@@ -30,4 +30,5 @@ interface Game {
   hand: number[]
   handLimit: number
   usedCards: number[]
+  waiting: { pick: number; cards: number[] } | null
 }

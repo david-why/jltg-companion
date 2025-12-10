@@ -2,11 +2,11 @@
   import { Button } from '@sveltestrap/sveltestrap'
 
   import { resolve } from '$app/paths'
-  import { game } from '$lib/store.svelte'
-  import ResetModal from '$lib/components/ResetModal.svelte'
-  import { SvelteDate } from 'svelte/reactivity'
-  import { onMount } from 'svelte'
   import GameCard from '$lib/components/GameCard.svelte'
+  import ResetModal from '$lib/components/ResetModal.svelte'
+  import { discardCard, drawCards, game, keepCard } from '$lib/game.svelte'
+  import { onMount } from 'svelte'
+  import { SvelteDate } from 'svelte/reactivity'
 
   const startDate = $derived(new Date(game.startTime).toLocaleString())
 
@@ -20,13 +20,6 @@
   })
 
   let resetModalOpen = $state(false)
-
-  function discardCard(id: number) {
-    const index = game.hand.indexOf(id)
-    if (index >= 0) {
-      game.hand.splice(index, 1)
-    }
-  }
 </script>
 
 <h1>Hider <a href={resolve('/')} class="fs-5 ms-4">&lt; Back</a></h1>
@@ -42,7 +35,28 @@
 
 <hr />
 
-<h2 class="mt-2">Your hand</h2>
+<h2>Draw cards</h2>
+
+<div class="d-flex gap-2">
+  <Button disabled={!!game.waiting} onclick={() => drawCards(3, 1)}>D3P1</Button>
+  <Button disabled={!!game.waiting} onclick={() => drawCards(2, 1)}>D2P1</Button>
+  <Button disabled={!!game.waiting} onclick={() => drawCards(4, 2)}>D4P2</Button>
+  <Button disabled={!!game.waiting} onclick={() => drawCards(1, 1)}>Draw 1</Button>
+  <Button disabled={!!game.waiting}>Other...</Button>
+</div>
+
+{#if game.waiting}
+  <h3 class="mt-3">Drawn cards (keep {game.waiting.pick})</h3>
+  <div class="d-flex gap-4 flex-wrap">
+    {#each game.waiting.cards as cardId (cardId)}
+      <GameCard id={cardId} canDiscard={false} use="Keep" onuse={() => keepCard(cardId)} />
+    {/each}
+  </div>
+{/if}
+
+<hr />
+
+<h2>Your hand</h2>
 
 <div class="d-flex gap-4 flex-wrap">
   {#each game.hand as cardId (cardId)}

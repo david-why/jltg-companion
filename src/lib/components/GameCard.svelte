@@ -1,14 +1,16 @@
 <script lang="ts">
-  import { game } from '$lib/store.svelte'
+  import { game } from '$lib/game.svelte'
   import { Button, Card, CardBody, CardFooter, CardText, CardTitle } from '@sveltestrap/sveltestrap'
 
   interface Props {
     id: number
+    use?: string
+    canDiscard?: boolean
     ondiscard?: () => unknown
     onuse?: () => unknown
   }
 
-  const { id, ondiscard, onuse }: Props = $props()
+  const { id, use = 'Use', canDiscard = true, ondiscard, onuse }: Props = $props()
 
   const card = $derived(game.spec.deck.find((c) => c.id === id))
   $effect(() => {
@@ -36,7 +38,9 @@
     </CardText>
   </CardBody>
   <CardFooter>
-    <Button size="sm" onclick={ondiscard}>Discard</Button>
-    <Button size="sm" color="primary" onclick={onuse}>Use</Button>
+    {#if canDiscard}
+      <Button size="sm" onclick={ondiscard}>Discard</Button>
+    {/if}
+    <Button size="sm" color="primary" onclick={onuse}>{use}</Button>
   </CardFooter>
 </Card>
