@@ -9,7 +9,6 @@
 
 <svelte:head>
   <link rel="icon" href={favicon} />
-  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
 </svelte:head>
 
 <Container class="my-4">
