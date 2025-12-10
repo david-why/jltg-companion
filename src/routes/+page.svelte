@@ -1,2 +1,33 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+  import { resolve } from '$app/paths'
+  import { Row, Col, Card, CardBody, CardTitle, CardText } from '@sveltestrap/sveltestrap'
+</script>
+
+<h1>JLTG Companion</h1>
+
+<p>Supercharge your JLTG Hide &amp; Seek game</p>
+
+<h2 class="fs-4 pb-2">Which side are you playing on?</h2>
+
+<Row>
+  <Col>
+    <a href={resolve('/hiders')}>
+      <Card>
+        <CardBody>
+          <CardTitle>Hiders</CardTitle>
+          <CardText>Track the deck, your cards, and the current time</CardText>
+        </CardBody>
+      </Card>
+    </a>
+  </Col>
+  <Col>
+    <a href={resolve('/seekers')}>
+      <Card>
+        <CardBody>
+          <CardTitle>Seekers</CardTitle>
+          <CardText>See the map and track the questions you've asked</CardText>
+        </CardBody>
+      </Card>
+    </a>
+  </Col>
+</Row>
