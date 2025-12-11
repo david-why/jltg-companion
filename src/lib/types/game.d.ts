@@ -1,19 +1,27 @@
-interface DrawCardEvent {
+interface BaseEvent {
+  id: string
   time: number
+  type: string
+}
+
+interface DrawCardEvent extends BaseEvent {
   type: 'hider_draw_card'
   card: number
 }
 
-interface DiscardCardEvent {
-  time: number
+interface DiscardCardEvent extends BaseEvent {
   type: 'hider_discard_card'
   card: number
 }
 
-type HiderEvent = DrawCardEvent | DiscardCardEvent
+interface KeepCardEvent extends BaseEvent {
+  type: 'hider_keep_card'
+  card: number
+}
 
-interface AskEvent {
-  time: number
+type HiderEvent = DrawCardEvent | DiscardCardEvent | KeepCardEvent
+
+interface AskEvent extends BaseEvent {
   type: 'seeker_ask'
   question: number
 }
@@ -23,6 +31,7 @@ type SeekerEvent = AskEvent
 type GameEvent = HiderEvent | SeekerEvent
 
 interface Game {
+  version: number
   spec: GameSpec
   startTime: number
   events: GameEvent[]

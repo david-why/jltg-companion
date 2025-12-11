@@ -1,5 +1,8 @@
 import { browser } from '$app/environment'
 import specs from './specs'
+import { generateRandomId } from './utils'
+
+const VERSION = 1
 
 function localStorageStore<T>(key: string, initialValue: T) {
   let value = initialValue
@@ -26,6 +29,7 @@ function localStorageStore<T>(key: string, initialValue: T) {
 
 export function generateNewGame(): Game {
   return {
+    version: VERSION,
     spec: specs[0]!,
     startTime: Date.now(),
     events: [],
@@ -38,6 +42,13 @@ export function generateNewGame(): Game {
 }
 
 export const game = localStorageStore('jltg-game', generateNewGame())
+$effect.root(() => {
+  $effect(() => {
+    if (game.version !== VERSION) {
+      Object.assign(game, generateNewGame())
+    }
+  })
+})
 
 export function discardCard(id: number) {
   const index = game.hand.indexOf(id)
@@ -45,6 +56,7 @@ export function discardCard(id: number) {
     throw new Error(`Card with ID ${id} is not in the hand`)
   }
   game.hand.splice(index, 1)
+  addGameEvent({ type: 'hider_discard_card', card: id })
 }
 
 function getLeftCards() {
@@ -65,7 +77,13 @@ function drawCard() {
       throw new Error('Out of cards')
     }
   }
-  return leftCards[Math.trunc(Math.random() * leftCards.length)]
+  const card = leftCards[Math.trunc(Math.random() * leftCards.length)]
+  addGameEvent({ type: 'hider_draw_card', card: card.id })
+  return card
+}
+
+export function addGameEvent(event: DistributiveOmit<GameEvent, 'id' | 'time'>) {
+  game.events.push({ ...event, id: generateRandomId(), time: Date.now() })
 }
 
 export function drawCards(draw: number, pick: number) {
@@ -76,8 +94,14 @@ export function drawCards(draw: number, pick: number) {
     if (game.hand.length + draw > game.handLimit) {
       throw new Error(`No space to draw ${draw} cards`)
     }
+    const drawn: number[] = []
     for (let i = 0; i < draw; i++) {
-      game.hand.push(drawCard().id)
+      const card = drawCard().id
+      drawn.push(card)
+      game.hand.push(card)
+    }
+    for (const card of drawn) {
+      addGameEvent({ type: 'hider_keep_card', card })
     }
   } else {
     game.waiting = { cards: [], pick }
@@ -101,4 +125,5 @@ export function keepCard(id: number) {
   if (!--game.waiting.pick) {
     game.waiting = null
   }
+  addGameEvent({ type: 'hider_keep_card', card: id })
 }

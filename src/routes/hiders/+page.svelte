@@ -7,6 +7,7 @@
   import { discardCard, drawCards, game, keepCard } from '$lib/game.svelte'
   import { onMount } from 'svelte'
   import { SvelteDate } from 'svelte/reactivity'
+  import EventText from '$lib/components/EventText.svelte'
 
   const startDate = $derived(new Date(game.startTime).toLocaleString())
 
@@ -66,5 +67,15 @@
 {#if !game.hand.length}
   <div>No cards in your hand.</div>
 {/if}
+
+<hr />
+
+<h2>Game log</h2>
+
+<ul>
+  {#each game.events.toSorted((a, b) => b.time - a.time) as event (event.id)}
+    <li><EventText {event} /></li>
+  {/each}
+</ul>
 
 <ResetModal bind:isOpen={resetModalOpen}></ResetModal>
