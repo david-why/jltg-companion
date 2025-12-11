@@ -19,7 +19,12 @@ interface KeepCardEvent extends BaseEvent {
   card: number
 }
 
-type HiderEvent = DrawCardEvent | DiscardCardEvent | KeepCardEvent
+interface UseCardEvent extends BaseEvent {
+  type: 'hider_use_card'
+  card: number
+}
+
+type HiderEvent = DrawCardEvent | DiscardCardEvent | KeepCardEvent | UseCardEvent
 
 interface AskEvent extends BaseEvent {
   type: 'seeker_ask'

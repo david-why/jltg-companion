@@ -59,6 +59,15 @@ export function discardCard(id: number) {
   addGameEvent({ type: 'hider_discard_card', card: id })
 }
 
+export function useCard(id: number) {
+  const index = game.hand.indexOf(id)
+  if (index < 0) {
+    throw new Error(`Card with ID ${id} is not in the hand`)
+  }
+  game.hand.splice(index, 1)
+  addGameEvent({ type: 'hider_use_card', card: id })
+}
+
 function getLeftCards() {
   return game.spec.deck.filter(
     (c) =>
@@ -87,6 +96,9 @@ export function addGameEvent(event: DistributiveOmit<GameEvent, 'id' | 'time'>) 
 }
 
 export function drawCards(draw: number, pick: number) {
+  if (pick <= 0 || pick <= 0) {
+    throw new Error('Can only draw positive number of cards')
+  }
   if (pick > draw) {
     throw new Error('Cannot pick more cards than draw')
   }

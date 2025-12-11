@@ -4,10 +4,11 @@
   import { resolve } from '$app/paths'
   import GameCard from '$lib/components/GameCard.svelte'
   import ResetModal from '$lib/components/ResetModal.svelte'
-  import { discardCard, drawCards, game, keepCard } from '$lib/game.svelte'
+  import { discardCard, drawCards, game, keepCard, useCard } from '$lib/game.svelte'
   import { onMount } from 'svelte'
   import { SvelteDate } from 'svelte/reactivity'
   import EventText from '$lib/components/EventText.svelte'
+  import DrawModal from '$lib/components/DrawModal.svelte'
 
   const startDate = $derived(new Date(game.startTime).toLocaleString())
 
@@ -21,6 +22,7 @@
   })
 
   let resetModalOpen = $state(false)
+  let drawModalOpen = $state(false)
 </script>
 
 <h1>Hider <a href={resolve('/')} class="fs-5 ms-4">&lt; Back</a></h1>
@@ -43,7 +45,7 @@
   <Button disabled={!!game.waiting} onclick={() => drawCards(2, 1)}>D2P1</Button>
   <Button disabled={!!game.waiting} onclick={() => drawCards(4, 2)}>D4P2</Button>
   <Button disabled={!!game.waiting} onclick={() => drawCards(1, 1)}>Draw 1</Button>
-  <Button disabled={!!game.waiting}>Other...</Button>
+  <Button disabled={!!game.waiting} onclick={() => (drawModalOpen = true)}>Other...</Button>
 </div>
 
 {#if game.waiting}
@@ -61,7 +63,7 @@
 
 <div class="d-flex gap-4 flex-wrap">
   {#each game.hand as cardId (cardId)}
-    <GameCard id={cardId} ondiscard={() => discardCard(cardId)} />
+    <GameCard id={cardId} ondiscard={() => discardCard(cardId)} onuse={() => useCard(cardId)} />
   {/each}
 </div>
 {#if !game.hand.length}
@@ -78,4 +80,5 @@
   {/each}
 </ul>
 
-<ResetModal bind:isOpen={resetModalOpen}></ResetModal>
+<ResetModal bind:isOpen={resetModalOpen} />
+<DrawModal bind:isOpen={drawModalOpen} />

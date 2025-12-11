@@ -12,11 +12,13 @@
   }
 </script>
 
+<code>{date}</code> -
 {#if event.type === 'hider_discard_card'}
   Discarded card <em>{findCard(event.card).title}</em>
 {:else if event.type === 'hider_draw_card'}
   Drawn card <em>{findCard(event.card).title}</em>
 {:else if event.type === 'hider_keep_card'}
   Kept card <em>{findCard(event.card).title}</em>
+{:else if event.type === 'hider_use_card'}
+  Used card <em>{findCard(event.card).title}</em>
 {/if}
-at {date}
