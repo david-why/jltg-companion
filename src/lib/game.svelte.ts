@@ -27,10 +27,10 @@ function localStorageStore<T>(key: string, initialValue: T) {
   return store
 }
 
-export function generateNewGame(): Game {
+export function generateNewGame(spec: GameSpec = specs[0]): Game {
   return {
     version: VERSION,
-    spec: specs[0]!,
+    spec,
     startTime: Date.now(),
     events: [],
     // for the hider
