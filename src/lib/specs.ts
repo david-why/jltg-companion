@@ -7,7 +7,8 @@ const specs: GameSpec[] = [
         id: 1,
         type: 'curse',
         title: 'Curse of the Test',
-        description: 'The chaser(s) must escape the testing facility before asking another question.',
+        description:
+          'The chaser(s) must escape the testing facility before asking another question.',
         cost: 'A picture of your portal gun',
       },
       {
@@ -15,6 +16,12 @@ const specs: GameSpec[] = [
         type: 'powerup',
         title: 'Veto',
         description: 'You refuse to answer the current question.',
+      },
+      {
+        id: 2001,
+        type: 'time',
+        title: '30 Minute Bonus',
+        duration: 30,
       },
     ],
   },

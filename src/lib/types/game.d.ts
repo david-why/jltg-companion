@@ -4,9 +4,10 @@ interface BaseEvent {
   type: string
 }
 
-interface DrawCardEvent extends BaseEvent {
-  type: 'hider_draw_card'
-  card: number
+interface DrawCardsEvent extends BaseEvent {
+  type: 'hider_draw_cards'
+  cards: number[]
+  keep: number
 }
 
 interface DiscardCardEvent extends BaseEvent {
@@ -17,6 +18,7 @@ interface DiscardCardEvent extends BaseEvent {
 interface KeepCardEvent extends BaseEvent {
   type: 'hider_keep_card'
   card: number
+  discarded?: number[]
 }
 
 interface UseCardEvent extends BaseEvent {
@@ -24,7 +26,7 @@ interface UseCardEvent extends BaseEvent {
   card: number
 }
 
-type HiderEvent = DrawCardEvent | DiscardCardEvent | KeepCardEvent | UseCardEvent
+type HiderEvent = DrawCardsEvent | DiscardCardEvent | KeepCardEvent | UseCardEvent
 
 interface AskEvent extends BaseEvent {
   type: 'seeker_ask'
@@ -44,5 +46,5 @@ interface Game {
   hand: number[]
   handLimit: number
   usedCards: number[]
-  waiting: { pick: number; cards: number[] } | null
+  waiting: { keep: number; cards: number[] } | null
 }

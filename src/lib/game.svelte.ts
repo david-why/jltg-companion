@@ -2,7 +2,7 @@ import { browser } from '$app/environment'
 import specs from './specs'
 import { generateRandomId } from './utils'
 
-const VERSION = 1
+const VERSION = 2
 
 function localStorageStore<T>(key: string, initialValue: T) {
   let value = initialValue
@@ -87,7 +87,6 @@ function drawCard() {
     }
   }
   const card = leftCards[Math.trunc(Math.random() * leftCards.length)]
-  addGameEvent({ type: 'hider_draw_card', card: card.id })
   return card
 }
 
@@ -95,14 +94,14 @@ export function addGameEvent(event: DistributiveOmit<GameEvent, 'id' | 'time'>) 
   game.events.push({ ...event, id: generateRandomId(), time: Date.now() })
 }
 
-export function drawCards(draw: number, pick: number) {
-  if (pick <= 0 || pick <= 0) {
+export function drawCards(draw: number, keep: number) {
+  if (draw <= 0 || keep <= 0) {
     throw new Error('Can only draw positive number of cards')
   }
-  if (pick > draw) {
+  if (keep > draw) {
     throw new Error('Cannot pick more cards than draw')
   }
-  if (pick === draw) {
+  if (keep === draw) {
     if (game.hand.length + draw > game.handLimit) {
       throw new Error(`No space to draw ${draw} cards`)
     }
@@ -112,15 +111,22 @@ export function drawCards(draw: number, pick: number) {
       drawn.push(card)
       game.hand.push(card)
     }
+    addGameEvent({ type: 'hider_draw_cards', cards: drawn, keep })
     for (const card of drawn) {
       addGameEvent({ type: 'hider_keep_card', card })
     }
   } else {
-    game.waiting = { cards: [], pick }
-    for (let i = 0; i < draw; i++) {
-      const card = drawCard()
-      game.waiting.cards.push(card.id)
+    game.waiting = { cards: [], keep: keep }
+    try {
+      for (let i = 0; i < draw; i++) {
+        const card = drawCard()
+        game.waiting.cards.push(card.id)
+      }
+    } catch (e) {
+      game.waiting = null
+      throw e
     }
+    addGameEvent({ type: 'hider_draw_cards', cards: game.waiting.cards, keep })
   }
 }
 
@@ -134,8 +140,44 @@ export function keepCard(id: number) {
   }
   game.waiting.cards.splice(index, 1)
   game.hand.push(id)
-  if (!--game.waiting.pick) {
+  let discarded: number[] | undefined
+  if (!--game.waiting.keep) {
+    discarded = game.waiting.cards
     game.waiting = null
   }
-  addGameEvent({ type: 'hider_keep_card', card: id })
+  addGameEvent({ type: 'hider_keep_card', card: id, discarded })
+}
+
+export function undoAction() {
+  const event = game.events.pop()
+  if (!event) {
+    throw new Error('Cannot undo when there are no events')
+  }
+  switch (event.type) {
+    case 'hider_discard_card':
+      game.hand.push(event.card)
+      break
+    case 'hider_draw_cards':
+      // cards always drawn to waiting area and cannot draw when waiting
+      // so just clear waiting
+      game.waiting = null
+      break
+    case 'hider_keep_card':
+      if (game.waiting) {
+        game.waiting.cards.push(event.card)
+        game.waiting.keep++
+      } else {
+        game.waiting = { cards: event.discarded || [], keep: 1 }
+        game.waiting.cards.push(event.card)
+      }
+      if (game.hand.includes(event.card)) {
+        game.hand.splice(game.hand.indexOf(event.card), 1)
+      }
+      break
+    case 'hider_use_card':
+      game.hand.push(event.card)
+      break
+    default:
+      throw new Error(`Failed to undo unknown event ${event.type}`)
+  }
 }
