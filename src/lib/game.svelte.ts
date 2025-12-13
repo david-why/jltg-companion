@@ -32,6 +32,7 @@ export function generateNewGame(spec: GameSpec = specs[0]): Game {
     version: VERSION,
     spec,
     startTime: Date.now(),
+    pauseTime: null,
     events: [],
     // for the hider
     hand: [],
@@ -76,6 +77,19 @@ export function useCard(id: number) {
 export function addTimerBonus(minutes: number) {
   game.bonus += minutes
   addGameEvent({ type: 'hider_timer_bonus', duration: minutes })
+}
+
+export function pauseTimer() {
+  if (game.pauseTime) return
+  game.pauseTime = Date.now()
+}
+
+export function unpauseTimer() {
+  if (!game.pauseTime) return
+  const elapsed = (Date.now() - game.pauseTime) / 1000 / 60
+  game.bonus -= elapsed
+  addGameEvent({ type: 'hider_pause', duration: elapsed })
+  game.pauseTime = null
 }
 
 function getLeftCards() {
@@ -189,6 +203,9 @@ export function undoAction() {
       break
     case 'hider_timer_bonus':
       game.bonus -= event.duration
+      break
+    case 'hider_pause':
+      game.bonus += event.duration
       break
     default:
       throw new Error(`Failed to undo unknown event ${event.type}`)

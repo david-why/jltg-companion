@@ -31,7 +31,18 @@ interface TimerBonusEvent extends BaseEvent {
   duration: number // minutes
 }
 
-type HiderEvent = DrawCardsEvent | DiscardCardEvent | KeepCardEvent | UseCardEvent | TimerBonusEvent
+interface PauseEvent extends BaseEvent {
+  type: 'hider_pause'
+  duration: number // minutes
+}
+
+type HiderEvent =
+  | DrawCardsEvent
+  | DiscardCardEvent
+  | KeepCardEvent
+  | UseCardEvent
+  | TimerBonusEvent
+  | PauseEvent
 
 interface AskEvent extends BaseEvent {
   type: 'seeker_ask'
@@ -46,6 +57,7 @@ interface Game {
   version: number
   spec: GameSpec
   startTime: number
+  pauseTime: number | null
   events: GameEvent[]
   // for hiders
   hand: number[]

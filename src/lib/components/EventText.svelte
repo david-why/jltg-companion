@@ -27,4 +27,6 @@
   Used card <em>{findCard(event.card).title}</em>
 {:else if event.type === 'hider_timer_bonus'}
   Received a timer bonus of {event.duration} minutes
+{:else if event.type === 'hider_pause'}
+  Paused the game for {event.duration} minutes
 {/if}

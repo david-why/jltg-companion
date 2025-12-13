@@ -4,7 +4,16 @@
   import { resolve } from '$app/paths'
   import GameCard from '$lib/components/GameCard.svelte'
   import ResetModal from '$lib/components/ResetModal.svelte'
-  import { discardCard, drawCards, game, keepCard, undoAction, useCard } from '$lib/game.svelte'
+  import {
+    discardCard,
+    drawCards,
+    game,
+    keepCard,
+    pauseTimer,
+    undoAction,
+    unpauseTimer,
+    useCard,
+  } from '$lib/game.svelte'
   import { onMount } from 'svelte'
   import { SvelteDate } from 'svelte/reactivity'
   import EventText from '$lib/components/EventText.svelte'
@@ -22,7 +31,9 @@
     return () => clearInterval(interval)
   })
 
-  const timer = $derived(currentDate.getTime() - game.startTime + game.bonus * 60 * 1000)
+  const timer = $derived(
+    (game.pauseTime || currentDate.getTime()) - game.startTime + game.bonus * 60 * 1000,
+  )
   const timerFormatted = $derived.by(() => {
     const seconds = Math.floor(timer / 1000) % 60
     const minutes = Math.floor(timer / 60000) % 60
@@ -34,6 +45,11 @@
   let resetModalOpen = $state(false)
   let bonusModalOpen = $state(false)
   let drawModalOpen = $state(false)
+
+  function toggleTimer() {
+    if (game.pauseTime) unpauseTimer()
+    else pauseTimer()
+  }
 </script>
 
 <h1>Hider <a href={resolve('/')} class="fs-5 ms-4">&lt; Back</a></h1>
@@ -47,6 +63,8 @@
 <div class="d-flex gap-2">
   <Button size="sm" color="danger" onclick={() => (resetModalOpen = true)}>Reset game</Button>
   <Button size="sm" color="primary" onclick={() => (bonusModalOpen = true)}>Timer bonus</Button>
+  <Button size="sm" onclick={() => toggleTimer()}>{game.pauseTime ? 'Start' : 'Pause'} timer</Button
+  >
 </div>
 
 <hr />
