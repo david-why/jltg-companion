@@ -22,6 +22,15 @@
     return () => clearInterval(interval)
   })
 
+  const timer = $derived(currentDate.getTime() - game.startTime + game.bonus * 60 * 1000)
+  const timerFormatted = $derived.by(() => {
+    const seconds = Math.floor(timer / 1000) % 60
+    const minutes = Math.floor(timer / 60000) % 60
+    const hours = Math.floor(timer / 3600000) % 24
+    const days = Math.floor(timer / 86400000)
+    return `${days}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+  })
+
   let resetModalOpen = $state(false)
   let bonusModalOpen = $state(false)
   let drawModalOpen = $state(false)
@@ -31,6 +40,7 @@
 
 <ul>
   <li>Game started: {startDate}</li>
+  <li>Your timer: {timerFormatted}</li>
   <li>Game type: {game.spec.name}</li>
 </ul>
 
