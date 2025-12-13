@@ -13,7 +13,7 @@
 <Row>
   <Col>
     <a href={resolve('/hiders')}>
-      <Card>
+      <Card style="height: 100%">
         <CardBody>
           <CardTitle>Hiders</CardTitle>
           <CardText>Track the deck, your cards, and the current time</CardText>
@@ -23,7 +23,7 @@
   </Col>
   <Col>
     <a href={resolve('/seekers')}>
-      <Card>
+      <Card style="height: 100%">
         <CardBody>
           <CardTitle>Seekers</CardTitle>
           <CardText>See the map and track the questions you've asked</CardText>

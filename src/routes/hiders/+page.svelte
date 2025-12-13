@@ -61,7 +61,7 @@
   <li>Game type: {game.spec.name}</li>
 </ul>
 
-<div class="d-flex gap-2">
+<div class="d-flex gap-2 flex-wrap">
   <Button size="sm" color="danger" onclick={() => (resetModalOpen = true)}>Reset game</Button>
   <Button size="sm" color="primary" onclick={() => (bonusModalOpen = true)}>Timer bonus</Button>
   <Button size="sm" onclick={() => toggleTimer()}>{game.pauseTime ? 'Start' : 'Pause'} timer</Button
@@ -72,7 +72,7 @@
 
 <h2>Draw cards</h2>
 
-<div class="d-flex gap-2">
+<div class="d-flex gap-2 flex-wrap">
   <Button disabled={!!game.waiting} onclick={() => drawCards(3, 1)}>D3P1</Button>
   <Button disabled={!!game.waiting} onclick={() => drawCards(2, 1)}>D2P1</Button>
   <Button disabled={!!game.waiting} onclick={() => drawCards(4, 2)}>D4P2</Button>
