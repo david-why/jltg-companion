@@ -20,7 +20,7 @@
   })
 </script>
 
-<Card style="width: 15em">
+<Card style="width: 20em">
   <CardBody>
     <CardTitle>{card?.title}</CardTitle>
     <CardText>

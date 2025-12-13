@@ -9,6 +9,7 @@
   import { SvelteDate } from 'svelte/reactivity'
   import EventText from '$lib/components/EventText.svelte'
   import DrawModal from '$lib/components/DrawModal.svelte'
+  import BonusModal from '$lib/components/BonusModal.svelte'
 
   const startDate = $derived(new Date(game.startTime).toLocaleString())
 
@@ -22,6 +23,7 @@
   })
 
   let resetModalOpen = $state(false)
+  let bonusModalOpen = $state(false)
   let drawModalOpen = $state(false)
 </script>
 
@@ -32,8 +34,9 @@
   <li>Game type: {game.spec.name}</li>
 </ul>
 
-<div>
+<div class="d-flex gap-2">
   <Button size="sm" color="danger" onclick={() => (resetModalOpen = true)}>Reset game</Button>
+  <Button size="sm" color="primary" onclick={() => (bonusModalOpen = true)}>Timer bonus</Button>
 </div>
 
 <hr />
@@ -81,8 +84,9 @@
 </ul>
 
 <div>
-  <Button size="sm" onclick={() => undoAction()}>Undo</Button>
+  <Button size="sm" disabled={!game.events.length} onclick={() => undoAction()}>Undo</Button>
 </div>
 
 <ResetModal bind:isOpen={resetModalOpen} />
 <DrawModal bind:isOpen={drawModalOpen} />
+<BonusModal bind:isOpen={bonusModalOpen} />

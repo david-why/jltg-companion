@@ -26,7 +26,12 @@ interface UseCardEvent extends BaseEvent {
   card: number
 }
 
-type HiderEvent = DrawCardsEvent | DiscardCardEvent | KeepCardEvent | UseCardEvent
+interface TimerBonusEvent extends BaseEvent {
+  type: 'hider_timer_bonus'
+  duration: number // minutes
+}
+
+type HiderEvent = DrawCardsEvent | DiscardCardEvent | KeepCardEvent | UseCardEvent | TimerBonusEvent
 
 interface AskEvent extends BaseEvent {
   type: 'seeker_ask'
@@ -46,5 +51,6 @@ interface Game {
   hand: number[]
   handLimit: number
   usedCards: number[]
+  bonus: number
   waiting: { keep: number; cards: number[] } | null
 }

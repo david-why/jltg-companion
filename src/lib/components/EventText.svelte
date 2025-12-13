@@ -25,4 +25,6 @@
   Kept card <em>{findCard(event.card).title}</em>
 {:else if event.type === 'hider_use_card'}
   Used card <em>{findCard(event.card).title}</em>
+{:else if event.type === 'hider_timer_bonus'}
+  Received a timer bonus of {event.duration} minutes
 {/if}

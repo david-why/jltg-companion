@@ -37,6 +37,7 @@ export function generateNewGame(spec: GameSpec = specs[0]): Game {
     hand: [],
     handLimit: 6,
     usedCards: [],
+    bonus: 0,
     waiting: null,
   }
 }
@@ -66,6 +67,15 @@ export function useCard(id: number) {
   }
   game.hand.splice(index, 1)
   addGameEvent({ type: 'hider_use_card', card: id })
+  const card = game.spec.deck.find((c) => c.id === id)
+  if (card?.type === 'time') {
+    addTimerBonus(card.duration)
+  }
+}
+
+export function addTimerBonus(minutes: number) {
+  game.bonus += minutes
+  addGameEvent({ type: 'hider_timer_bonus', duration: minutes })
 }
 
 function getLeftCards() {
@@ -176,6 +186,9 @@ export function undoAction() {
       break
     case 'hider_use_card':
       game.hand.push(event.card)
+      break
+    case 'hider_timer_bonus':
+      game.bonus -= event.duration
       break
     default:
       throw new Error(`Failed to undo unknown event ${event.type}`)
