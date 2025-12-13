@@ -92,6 +92,11 @@ export function unpauseTimer() {
   game.pauseTime = null
 }
 
+export function expandHand(count: number) {
+  game.handLimit += count
+  addGameEvent({ type: 'hider_expand', count })
+}
+
 function getLeftCards() {
   return game.spec.deck.filter(
     (c) =>
@@ -206,6 +211,9 @@ export function undoAction() {
       break
     case 'hider_pause':
       game.bonus += event.duration
+      break
+    case 'hider_expand':
+      game.handLimit -= event.count
       break
     default:
       throw new Error(`Failed to undo unknown event ${event.type}`)

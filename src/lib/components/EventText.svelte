@@ -29,4 +29,8 @@
   Received a timer bonus of {event.duration} minutes
 {:else if event.type === 'hider_pause'}
   Paused the game for {event.duration} minutes
+{:else if event.type === 'hider_expand'}
+  Expanded hand size by {event.count}
+{:else}
+  Unknown event: <code>{JSON.stringify(event)}</code>
 {/if}

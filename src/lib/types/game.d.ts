@@ -36,6 +36,11 @@ interface PauseEvent extends BaseEvent {
   duration: number // minutes
 }
 
+interface ExpandEvent extends BaseEvent {
+  type: 'hider_expand'
+  count: number
+}
+
 type HiderEvent =
   | DrawCardsEvent
   | DiscardCardEvent
@@ -43,6 +48,7 @@ type HiderEvent =
   | UseCardEvent
   | TimerBonusEvent
   | PauseEvent
+  | ExpandEvent
 
 interface AskEvent extends BaseEvent {
   type: 'seeker_ask'

@@ -7,6 +7,7 @@
   import {
     discardCard,
     drawCards,
+    expandHand,
     game,
     keepCard,
     pauseTimer,
@@ -77,6 +78,7 @@
   <Button disabled={!!game.waiting} onclick={() => drawCards(4, 2)}>D4P2</Button>
   <Button disabled={!!game.waiting} onclick={() => drawCards(1, 1)}>Draw 1</Button>
   <Button disabled={!!game.waiting} onclick={() => (drawModalOpen = true)}>Other...</Button>
+  <Button onclick={() => expandHand(1)}>Expand hand</Button>
 </div>
 
 {#if game.waiting}
@@ -90,7 +92,7 @@
 
 <hr />
 
-<h2>Your hand</h2>
+<h2>Your hand ({game.hand.length}/{game.handLimit})</h2>
 
 <div class="d-flex gap-4 flex-wrap">
   {#each game.hand as cardId (cardId)}
