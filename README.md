@@ -1,38 +1,22 @@
-# sv
+# JLTG Companion App
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A companion web app that lets you play the Hide and Seek game with your friends.
 
-## Creating a project
+_Note: This app is not endorsed by JLTG in any way, shape, or form. All information is sourced from the internet._
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Setup instructions
 
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To start a development server, run:
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+bun i
+bun dev
 ```
 
-## Building
-
-To create a production version of your app:
+To build for production and deploy to Cloudflare:
 
 ```sh
-npm run build
+bun i
+bun run build
+bunx wrangler deploy
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
