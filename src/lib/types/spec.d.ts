@@ -42,4 +42,5 @@ interface GameQuestion {
 interface QuestionOption {
   id: number
   text: string
+  description?: string
 }

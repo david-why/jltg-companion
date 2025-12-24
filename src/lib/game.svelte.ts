@@ -2,7 +2,7 @@ import { browser } from '$app/environment'
 import specs from './specs'
 import { generateRandomId } from './utils'
 
-const VERSION = 4
+const VERSION = 5
 
 function localStorageStore<T>(key: string, initialValue: T) {
   let value = initialValue

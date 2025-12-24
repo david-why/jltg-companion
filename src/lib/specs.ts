@@ -276,7 +276,7 @@ const MATCHING: GameQuestion = {
     { id: 9, text: 'Mountain' },
     { id: 10, text: 'Landmass' },
     { id: 11, text: 'Park' },
-    { id: 12, text: 'Amusment Park' },
+    { id: 12, text: 'Amusement Park' },
     { id: 13, text: 'Zoo' },
     { id: 14, text: 'Aquarium' },
     { id: 15, text: 'Golf Course' },
@@ -284,7 +284,7 @@ const MATCHING: GameQuestion = {
     { id: 17, text: 'Movie Theatre' },
     { id: 18, text: 'Hospital' },
     { id: 19, text: 'Library' },
-    { id: 20, text: 'Forign Conssulate' },
+    { id: 20, text: 'Foreign Consulate' },
   ],
 }
 
@@ -309,7 +309,7 @@ const MEASURING: GameQuestion = {
     { id: 11, text: 'A Coastline' },
     { id: 12, text: 'A Mountain' },
     { id: 13, text: 'A Park' },
-    { id: 14, text: 'Amusment Park' },
+    { id: 14, text: 'Amusement Park' },
     { id: 15, text: 'Zoo' },
     { id: 16, text: 'Aquarium' },
     { id: 17, text: 'Golf Course' },
@@ -317,7 +317,7 @@ const MEASURING: GameQuestion = {
     { id: 19, text: 'Movie Theatre' },
     { id: 20, text: 'Hospital' },
     { id: 21, text: 'Library' },
-    { id: 22, text: 'Forign Conssulate' },
+    { id: 22, text: 'Foreign Consulate' },
   ],
 }
 
@@ -344,6 +344,159 @@ const THERMOMETER3: GameQuestion = {
   options: [...THERMOMETER2.options, { id: 4, text: '80km (50mi)' }],
 }
 
+const RADAR: GameQuestion = {
+  id: 4,
+  name: 'Radar',
+  question: 'Are you within _____ of me?',
+  draw: 2,
+  keep: 1,
+  time: 5,
+  options: [
+    { id: 1, text: '402m (0.25mi)' },
+    { id: 2, text: '805m (0.5mi)' },
+    { id: 3, text: '1.6km (1mi)' },
+    { id: 4, text: '4.8km (3mi)' },
+    { id: 5, text: '8km (5mi)' },
+    { id: 6, text: '16km (10mi)' },
+    { id: 7, text: '40km (25mi)' },
+    { id: 8, text: '80.5km (50mi)' },
+    { id: 9, text: '160.9km (100mi)' },
+  ],
+}
+
+const TENTACLES2: GameQuestion = {
+  id: 5,
+  name: 'Tentacles',
+  question: 'Of all the _____ within _____ of me, which are you closest to?',
+  draw: 4,
+  keep: 2,
+  time: 5,
+  options: [
+    { id: 1, text: 'Museums, 1.6km (1mi)' },
+    { id: 2, text: 'Libraries, 1.6km (1mi)' },
+    { id: 3, text: 'Movie Theatres, 1.6km (1mi)' },
+    { id: 4, text: 'Hospitals, 1.6km (1mi)' },
+  ],
+}
+
+const TENTACLES3: GameQuestion = {
+  ...TENTACLES2,
+  options: [
+    ...TENTACLES2.options,
+    { id: 5, text: 'Metro Lines, 24.1km (15mi)' },
+    { id: 6, text: 'Zoos, 24.1km (15mi)' },
+    { id: 7, text: 'Aquariums, 24.1km (15mi)' },
+    { id: 8, text: 'Amusment Parks, 24.1km (15mi)' },
+  ],
+}
+
+const PHOTOS: GameQuestion = {
+  id: 6,
+  name: 'Photo',
+  question: 'Send a photo of _____.',
+  draw: 1,
+  keep: 1,
+  time: 10,
+  options: [
+    { id: 1, text: 'A Tree', description: 'Must include the entire tree' },
+    { id: 2, text: 'The Sky', description: 'Place phone on ground and shoot directly up' },
+    { id: 3, text: 'You', description: 'Selfie mode, arm parallel to the ground, fully extended' },
+    { id: 4, text: 'Widest Street', description: 'Must include both sides of the street' },
+    {
+      id: 5,
+      text: 'Tallest Structure in Your Sightline',
+      description:
+        'Tallest from your current perspective / sightline. Must include top and both sides. The top must be in the top 1/3rd of frame',
+    },
+    {
+      id: 6,
+      text: 'Any Building Visible from Station',
+      description:
+        'Must stand directly outside transit station entrance. If multiple entrances you may choose. Must include roof, boths sides, with the top of the building in the top 1/3rd of frame',
+    },
+  ],
+}
+
+const PHOTOS2: GameQuestion = {
+  ...PHOTOS,
+  options: [
+    ...PHOTOS.options,
+    {
+      id: 7,
+      text: 'Tallest Building Visible from Station',
+      description:
+        'Tallest from your perspective / sightline.Must stand directly outside transit station entrance. If multiple entrances you may choose. Must include roof, boths sides, with the top of the building in the top 1/3rd of frame',
+    },
+    {
+      id: 8,
+      text: 'Trace Nearest Street / Path',
+      description:
+        'Street / Path must be visible on mapping app. Trace intersection to intersection',
+    },
+    {
+      id: 9,
+      text: 'Two Buildings',
+      description: "Must include 5'x5' section with three distinct elements",
+    },
+    {
+      id: 10,
+      text: 'Restaurant Interior',
+      description: 'No zoom, must take photo from outside through window',
+    },
+    {
+      id: 11,
+      text: 'Train Platform',
+      description: "Must include 5'x5' section with three distinct elements",
+    },
+    {
+      id: 12,
+      text: 'Park',
+      description:
+        "No zoom, phone perpendicular to ground, must stand 5' away from any obstruction",
+    },
+    {
+      id: 13,
+      text: 'Grocery Store Aisle',
+      description: 'No zoom, stand at the end of the aisle, shoot directly down aisle.',
+    },
+    {
+      id: 14,
+      text: 'Place of Worship',
+      description: "Must include 5'x5' section with three distinct elements",
+    },
+  ],
+}
+
+const PHOTOS3: GameQuestion = {
+  ...PHOTOS2,
+  time: 20,
+  options: [
+    ...PHOTOS2.options,
+    {
+      id: 15,
+      text: '1/2 Mile of Streets Traced',
+      description:
+        'Must be continuous, include 5 turns, no doubling back, send N-S Oriented, streets must appear on mapping app.',
+    },
+    {
+      id: 16,
+      text: 'Tallest Mountain Visible from Station',
+      description:
+        'Tallest form you perspective / sightline. Must be 3x zoom. Top of mountain must be in top 1/3rd of frame',
+    },
+    {
+      id: 17,
+      text: 'Biggest body of water in your zone',
+      description: 'Max 3x zoom. Must include either both sides of water OR the horizon.',
+    },
+    {
+      id: 18,
+      text: 'Five Buildings',
+      description: 'Must include bottom and up to four stories',
+    },
+  ],
+}
+
 const specs: GameSpec[] = [
   {
     id: 'jltg-small',
@@ -363,7 +516,7 @@ const specs: GameSpec[] = [
       ...repeat(EXPAND, 2),
       ...generateCurses('small'),
     ],
-    questions: [MATCHING, MEASURING, THERMOMETER],
+    questions: [MATCHING, MEASURING, THERMOMETER, RADAR, PHOTOS],
   },
   {
     id: 'jltg-medium',
@@ -383,7 +536,7 @@ const specs: GameSpec[] = [
       ...repeat(EXPAND, 2),
       ...generateCurses('medium'),
     ],
-    questions: [MATCHING, MEASURING, THERMOMETER2],
+    questions: [MATCHING, MEASURING, THERMOMETER2, RADAR, TENTACLES2, PHOTOS2],
   },
   {
     id: 'jltg-large',
@@ -403,7 +556,7 @@ const specs: GameSpec[] = [
       ...repeat(EXPAND, 2),
       ...generateCurses('large'),
     ],
-    questions: [MATCHING, MEASURING, THERMOMETER3],
+    questions: [MATCHING, MEASURING, THERMOMETER3, RADAR, TENTACLES3, PHOTOS3],
   },
 ]
 
