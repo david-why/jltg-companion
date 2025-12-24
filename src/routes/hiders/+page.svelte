@@ -3,70 +3,24 @@
 
   import { resolve } from '$app/paths'
   import GameCard from '$lib/components/GameCard.svelte'
-  import ResetModal from '$lib/components/ResetModal.svelte'
   import {
     discardCard,
     drawCards,
     expandHand,
     game,
     keepCard,
-    pauseTimer,
-    undoAction,
-    unpauseTimer,
     useCard,
   } from '$lib/game.svelte'
-  import { onMount } from 'svelte'
-  import { SvelteDate } from 'svelte/reactivity'
-  import EventText from '$lib/components/EventText.svelte'
   import DrawModal from '$lib/components/DrawModal.svelte'
-  import BonusModal from '$lib/components/BonusModal.svelte'
+  import GameStatus from '$lib/components/GameStatus.svelte'
+  import GameLog from '$lib/components/GameLog.svelte'
 
-  const startDate = $derived(new Date(game.startTime).toLocaleString())
-
-  let currentDate = new SvelteDate()
-  onMount(() => {
-    const interval = setInterval(() => {
-      currentDate.setTime(Date.now())
-    }, 1000)
-
-    return () => clearInterval(interval)
-  })
-
-  const timer = $derived(
-    (game.pauseTime || currentDate.getTime()) - game.startTime + game.bonus * 60 * 1000,
-  )
-  const timerFormatted = $derived.by(() => {
-    const seconds = Math.floor(timer / 1000) % 60
-    const minutes = Math.floor(timer / 60000) % 60
-    const hours = Math.floor(timer / 3600000) % 24
-    const days = Math.floor(timer / 86400000)
-    return `${days}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-  })
-
-  let resetModalOpen = $state(false)
-  let bonusModalOpen = $state(false)
   let drawModalOpen = $state(false)
-
-  function toggleTimer() {
-    if (game.pauseTime) unpauseTimer()
-    else pauseTimer()
-  }
 </script>
 
 <h1>Hider <a href={resolve('/')} class="fs-5 ms-4">&lt; Back</a></h1>
 
-<ul>
-  <li>Game started: {startDate}</li>
-  <li>Your timer: {timerFormatted}</li>
-  <li>Game type: {game.spec.name}</li>
-</ul>
-
-<div class="d-flex gap-2 flex-wrap">
-  <Button size="sm" color="danger" onclick={() => (resetModalOpen = true)}>Reset game</Button>
-  <Button size="sm" color="primary" onclick={() => (bonusModalOpen = true)}>Timer bonus</Button>
-  <Button size="sm" onclick={() => toggleTimer()}>{game.pauseTime ? 'Start' : 'Pause'} timer</Button
-  >
-</div>
+<GameStatus hider />
 
 <hr />
 
@@ -105,18 +59,6 @@
 
 <hr />
 
-<h2>Game log</h2>
+<GameLog />
 
-<ul>
-  {#each game.events.toSorted((a, b) => b.time - a.time) as event (event.id)}
-    <li><EventText {event} /></li>
-  {/each}
-</ul>
-
-<div>
-  <Button size="sm" disabled={!game.events.length} onclick={() => undoAction()}>Undo</Button>
-</div>
-
-<ResetModal bind:isOpen={resetModalOpen} />
 <DrawModal bind:isOpen={drawModalOpen} />
-<BonusModal bind:isOpen={bonusModalOpen} />

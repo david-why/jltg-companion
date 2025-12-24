@@ -10,6 +10,19 @@
     if (!card) throw new Error(`Card ${id} not found`)
     return card
   }
+
+  function findQuestion(question: number) {
+    const q = game.spec.questions.find((q) => q.id === question)
+    if (!q) throw new Error(`Question ${question} not found`)
+    return q
+  }
+
+  function findOption(question: number, option: number) {
+    const q = findQuestion(question)
+    const opt = q.options.find((opt) => opt.id === option)
+    if (!opt) throw new Error(`Question option ${question}.${option} not found`)
+    return opt
+  }
 </script>
 
 <code>{date}</code> -
@@ -31,6 +44,9 @@
   Paused the game for {event.duration} minutes
 {:else if event.type === 'hider_expand'}
   Expanded hand size by {event.count}
+{:else if event.type === 'seeker_ask'}
+  Asked question {findQuestion(event.question).name} - {findOption(event.question, event.option)
+    .text}
 {:else}
   Unknown event: <code>{JSON.stringify(event)}</code>
 {/if}

@@ -53,6 +53,7 @@ type HiderEvent =
 interface AskEvent extends BaseEvent {
   type: 'seeker_ask'
   question: number
+  option: number
 }
 
 type SeekerEvent = AskEvent

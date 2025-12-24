@@ -2,7 +2,7 @@ import { browser } from '$app/environment'
 import specs from './specs'
 import { generateRandomId } from './utils'
 
-const VERSION = 3
+const VERSION = 4
 
 function localStorageStore<T>(key: string, initialValue: T) {
   let value = initialValue
@@ -51,6 +51,8 @@ $effect.root(() => {
     }
   })
 })
+
+// hider
 
 export function discardCard(id: number) {
   const index = game.hand.indexOf(id)
@@ -176,6 +178,14 @@ export function keepCard(id: number) {
   }
   addGameEvent({ type: 'hider_keep_card', card: id, discarded })
 }
+
+// seeker
+
+export function askQuestion(question: number, option: number) {
+  addGameEvent({ type: 'seeker_ask', question, option })
+}
+
+// general
 
 export function undoAction() {
   const event = game.events.pop()
