@@ -2,6 +2,7 @@ interface GameSpec {
   id: string
   name: string
   deck: GameCard[]
+  questions: GameQuestion[]
 }
 
 interface CurseCard {
@@ -27,3 +28,18 @@ interface TimeCard {
 }
 
 type GameCard = CurseCard | PowerupCard | TimeCard
+
+interface GameQuestion {
+  id: number
+  name: string
+  question: string
+  draw: number
+  keep: number
+  time: number // minutes
+  options: QuestionOption[]
+}
+
+interface QuestionOption {
+  id: number
+  text: string
+}

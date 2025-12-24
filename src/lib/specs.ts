@@ -1,5 +1,7 @@
 // information taken from https://docs.google.com/spreadsheets/d/1jbE0vujOeOzc4oSfkqbOxmL9IiEaln2w_IOkmN60rQY/edit
 
+// cards
+
 function generateTimeBonus(id: number, minutes: number): TimeCard {
   return {
     id,
@@ -253,6 +255,95 @@ function generateCurses(size: 'small' | 'medium' | 'large'): GameCard[] {
   ]
 }
 
+// questions
+
+const MATCHING: GameQuestion = {
+  id: 1,
+  name: 'Matching',
+  question: 'Is your nearest _____ the same as my nearest _____?',
+  draw: 3,
+  keep: 1,
+  time: 5,
+  options: [
+    { id: 1, text: 'Commercial Airport' },
+    { id: 2, text: 'Transit Line' },
+    { id: 3, text: "Station's Name Length" },
+    { id: 4, text: 'Street or Path' },
+    { id: 5, text: '1st Admin (State)' },
+    { id: 6, text: '2nd Admin (County)' },
+    { id: 7, text: '3rd Admin (Municipality | City | Town)' },
+    { id: 8, text: '4th Admin (Borough)' },
+    { id: 9, text: 'Mountain' },
+    { id: 10, text: 'Landmass' },
+    { id: 11, text: 'Park' },
+    { id: 12, text: 'Amusment Park' },
+    { id: 13, text: 'Zoo' },
+    { id: 14, text: 'Aquarium' },
+    { id: 15, text: 'Golf Course' },
+    { id: 16, text: 'Museum' },
+    { id: 17, text: 'Movie Theatre' },
+    { id: 18, text: 'Hospital' },
+    { id: 19, text: 'Library' },
+    { id: 20, text: 'Forign Conssulate' },
+  ],
+}
+
+const MEASURING: GameQuestion = {
+  id: 2,
+  name: 'Measuring',
+  question: 'Compared to me, are you closer to or further from _____?',
+  draw: 3,
+  keep: 1,
+  time: 5,
+  options: [
+    { id: 1, text: 'A Commercial Airport' },
+    { id: 2, text: 'A High Speed Train Line' },
+    { id: 3, text: 'A Rail Station' },
+    { id: 4, text: 'An International Border' },
+    { id: 5, text: 'A 1st Admin Border (State)' },
+    { id: 6, text: 'A 2nd Admin Border (County)' },
+    { id: 7, text: 'A 3rd Admin Border (Municipality | City | Town)' },
+    { id: 8, text: 'A 4th Admin Border (Borough)' },
+    { id: 9, text: 'Sea Level' },
+    { id: 10, text: 'A Body of Water' },
+    { id: 11, text: 'A Coastline' },
+    { id: 12, text: 'A Mountain' },
+    { id: 13, text: 'A Park' },
+    { id: 14, text: 'Amusment Park' },
+    { id: 15, text: 'Zoo' },
+    { id: 16, text: 'Aquarium' },
+    { id: 17, text: 'Golf Course' },
+    { id: 18, text: 'Museum' },
+    { id: 19, text: 'Movie Theatre' },
+    { id: 20, text: 'Hospital' },
+    { id: 21, text: 'Library' },
+    { id: 22, text: 'Forign Conssulate' },
+  ],
+}
+
+const THERMOMETER: GameQuestion = {
+  id: 3,
+  name: 'Thermometer',
+  question: 'I just traveled (at least) _____. Am I hotter or colder?',
+  draw: 2,
+  keep: 1,
+  time: 5,
+  options: [
+    { id: 1, text: '805m (0.5mi)' },
+    { id: 2, text: '4.8km (3mi)' },
+  ],
+}
+
+const THERMOMETER2: GameQuestion = {
+  ...THERMOMETER,
+  options: [...THERMOMETER.options, { id: 3, text: '16km (10mi)' }],
+}
+
+const THERMOMETER3: GameQuestion = {
+  ...THERMOMETER2,
+  options: [...THERMOMETER2.options, { id: 4, text: '80km (50mi)' }],
+}
+
 const specs: GameSpec[] = [
   {
     id: 'jltg-small',
@@ -272,6 +363,7 @@ const specs: GameSpec[] = [
       ...repeat(EXPAND, 2),
       ...generateCurses('small'),
     ],
+    questions: [MATCHING, MEASURING, THERMOMETER],
   },
   {
     id: 'jltg-medium',
@@ -291,6 +383,7 @@ const specs: GameSpec[] = [
       ...repeat(EXPAND, 2),
       ...generateCurses('medium'),
     ],
+    questions: [MATCHING, MEASURING, THERMOMETER2],
   },
   {
     id: 'jltg-large',
@@ -310,6 +403,7 @@ const specs: GameSpec[] = [
       ...repeat(EXPAND, 2),
       ...generateCurses('large'),
     ],
+    questions: [MATCHING, MEASURING, THERMOMETER3],
   },
 ]
 
